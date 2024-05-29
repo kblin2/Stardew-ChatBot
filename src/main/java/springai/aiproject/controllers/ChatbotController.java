@@ -8,28 +8,17 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
+//@RequestMapping("/api/openai")
 public class ChatbotController {
 
-    private final OpenAIService openAIService;
+    private final OpenAIService openAiService;
 
-    @Autowired
-    public ChatbotController(OpenAIService openAIService) {
-        this.openAIService = openAIService;
+    public ChatbotController(OpenAIService openAiService) {
+        this.openAiService = openAiService;
     }
 
-    @GetMapping("/message")
-    public String getChatbotResponse(@RequestParam String message) {
-        try {
-            return openAIService.getOpenAIResponse(message);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Error: Unable to get response from OpenAI.";
-        }
-    }
-
-    @GetMapping("/test")
-    ResponseEntity<String> getGreeting(@RequestParam String greeting) {
-        System.out.println(greeting);
-        return ResponseEntity.ok(greeting);
+    @GetMapping("/generate")
+    public String generateText(@RequestBody String prompt) {
+        return openAiService.callOpenAiApi(prompt);
     }
 }
