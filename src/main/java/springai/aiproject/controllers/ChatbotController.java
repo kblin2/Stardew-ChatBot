@@ -14,7 +14,7 @@ public class ChatbotController {
         this.openAIService = openAIService;
     }
 
-    @GetMapping("/generate")
+    @GetMapping("/chat")
     public String generateText(@RequestParam String prompt) {
         return openAIService.callOpenAI(prompt);
     }

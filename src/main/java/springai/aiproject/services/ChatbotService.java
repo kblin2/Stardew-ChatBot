@@ -31,14 +31,18 @@ public class ChatbotService {
         headers.set("Content-Type", "application/json");
 
         Map<String, Object> message1 = new HashMap<>();
-        message1.put("role", "user");
-        message1.put("content", prompt);
+        message1.put("role", "system");
+        message1.put("content", "You are a helpful assistant answering questions about the game Stardew Valley.");
+
+        Map<String, Object> message2 = new HashMap<>();
+        message2.put("role", "user");
+        message2.put("content", prompt);
 
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", "gpt-3.5-turbo");
-        requestBody.put("messages", new Map[]{message1});
+        requestBody.put("messages", new Map[]{message1, message2});
         requestBody.put("temperature", 0);
-        requestBody.put("max_tokens", 50);
+        requestBody.put("max_tokens", 500);
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 

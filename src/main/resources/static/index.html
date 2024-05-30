@@ -2,9 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenAI Chat Interface</title>
+    <style>
+        body {
+            background-image: url('/images/catshan.jpg'); /* Replace with the path to your image */
+            background-size: cover; /* Cover the entire page */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            font-family: Arial, sans-serif;
+        }
+        #container {
+            display: flex;
+            justify-content: space-between; /* Space between the two divs */
+            padding: 20px;
+            color: #fff; /* Optional: Change text color for better contrast */
+        }
+        #promptDiv, #responseDiv {
+            flex: 1;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
+            margin: 10px;
+            border-radius: 10px;
+        }
+        .response-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
+<h1>Stardew Valley A.I.</h1>
+<div id="container">
+    <div id="promptDiv">
+        <h2>Prompt</h2>
+        <form id="chatForm">
+            <label for="prompt">Enter your prompt:</label><br>
+            <input type="text" id="prompt" name="prompt" style="width: 300px;"><br><br>
+            <button type="button" onclick="submitPrompt()">Submit</button>
+        </form>
+    </div>
 
+    <div id="responseDiv">
+        <h2>Response</h2>
+        <div id="response"></div>
+    </div>
+</div>
+
+<script>
+    function submitPrompt() {
+        var prompt = document.getElementById("prompt").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/chat?prompt=" + encodeURIComponent(prompt), true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var response = JSON.parse(xhr.responseText);
+                document.getElementById("response").innerHTML = '<div class="response-box">' + response.choices[0].message.content + '</div>';
+            }
+        };
+        xhr.send();
+    }
+</script>
 </body>
 </html>
