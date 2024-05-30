@@ -25,19 +25,13 @@ repositories {
 extra["springAiVersion"] = "1.0.0-M1"
 
 dependencies {
+	implementation("com.theokanning.openai-gpt3-java:client:0.10.0")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-	// ChatGpt Stuff
-//	implementation("org.springframework.boot:spring-boot-starter-json")
-//	implementation("org.springframework.boot:spring-boot-starter-data-rest")
-//	implementation("org.springframework.boot:spring-boot-starter-validation")
-//	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("com.squareup.okhttp3:okhttp:4.9.3")
 }
 
 dependencyManagement {

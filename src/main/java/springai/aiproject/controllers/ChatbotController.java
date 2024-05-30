@@ -1,24 +1,21 @@
 package springai.aiproject.controllers;
 
-import org.springframework.http.ResponseEntity;
-import springai.aiproject.services.OpenAIService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import springai.aiproject.services.ChatbotService;
 
 @RestController
-//@RequestMapping("/api/openai")
 public class ChatbotController {
 
-    private final OpenAIService openAiService;
+    private final ChatbotService openAIService;
 
-    public ChatbotController(OpenAIService openAiService) {
-        this.openAiService = openAiService;
+    public ChatbotController(ChatbotService openAIService) {
+        this.openAIService = openAIService;
     }
 
     @GetMapping("/generate")
-    public String generateText(@RequestBody String prompt) {
-        return openAiService.callOpenAiApi(prompt);
+    public String generateText(@RequestParam String prompt) {
+        return openAIService.callOpenAI(prompt);
     }
 }
