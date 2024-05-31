@@ -18,4 +18,5 @@ public class ChatbotController {
     public String generateText(@RequestParam String prompt) {
         return openAIService.callOpenAI(prompt);
     }
+    // Test that double repo is working
 }
