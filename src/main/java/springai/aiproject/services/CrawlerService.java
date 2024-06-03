@@ -6,19 +6,22 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 @Service
 public class CrawlerService {
 
-    private static final int MAX_DEPTH = 3;
+    private static final int MAX_DEPTH = 2;
+    private static final String FILE_PATH = "src/main/resources/static/data/content.txt";
 
-    public static Map<String, String> fetchAllHyperlinkContents(String startUrl) throws IOException {
+    public static Map<String, String> fetchAllHyperlinkContents(String[] startUrl) throws IOException {
         Set<String> visited = new HashSet<>();
         Queue<String> queue = new LinkedList<>();
-        queue.add(startUrl);
-        visited.add(startUrl);
+        for (String s : startUrl) {
+            queue.add(s);
+            visited.add(s);
+        }
 
         Map<String, String> allContents = new HashMap<>();
 
@@ -26,25 +29,30 @@ public class CrawlerService {
 
         while (!queue.isEmpty() && depth < MAX_DEPTH) {
             int levelSize = queue.size();
-
             for (int i = 0; i < levelSize; i++) {
                 String url = queue.poll();
                 System.out.println(url);
-                String content = fetchContent(url);
-                allContents.put(url, content);
+                try {
+                    String content = fetchContent(url);
+                    allContents.put(url, content);
 
-                List<String> links = fetchHyperlinks(url);
+                    List<String> links = fetchHyperlinks(url);
 
-                for (String link : links) {
-                    if (!visited.contains(link) && isValidLink(link)) {
-                        visited.add(link);
-                        queue.add(link);
+                    for (String link : links) {
+                        if (!visited.contains(link) && isValidLink(link)) {
+                            visited.add(link);
+                            queue.add(link);
+                        }
                     }
+                } catch (IOException e) {
+                    System.err.println("Failed to fetch content from " + url + ": " + e.getMessage());
                 }
             }
             depth++;
         }
 
+
+        saveContentToFile(allContents);
         return allContents;
     }
 
@@ -66,5 +74,40 @@ public class CrawlerService {
 
     private static boolean isValidLink(String link) {
         return link.startsWith("http") && !link.contains("#");
+    }
+
+    private static void saveContentToFile(Map<String, String> content) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (Map.Entry<String, String> entry : content.entrySet()) {
+                writer.write("URL: " + entry.getKey() + "\n");
+                writer.write("Content: " + entry.getValue() + "\n\n");
+            }
+        }
+    }
+
+    public Map<String, String> loadContentFromFile() throws IOException {
+        Map<String, String> content = new HashMap<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String url = null;
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("URL: ")) {
+                    if (url != null) {
+                        content.put(url, sb.toString());
+                    }
+                    url = line.substring(5);
+                    sb.setLength(0);
+                } else if (line.startsWith("Content: ")) {
+                    sb.append(line.substring(9));
+                } else {
+                    sb.append(line).append("\n");
+                }
+            }
+            if (url != null) {
+                content.put(url, sb.toString());
+            }
+        }
+        return content;
     }
 }
