@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatbotService {
@@ -23,8 +24,12 @@ public class ChatbotService {
         this.restTemplate = restTemplate;
     }
 
-    public String callOpenAI(String prompt) {
+    public String callOpenAI(String query, Map<String, String> allContents) {
         String url = "https://api.openai.com/v1/chat/completions";
+
+        String combinedContent = allContents.values().stream().collect(Collectors.joining("\n\n"));
+        String prompt = "Based on the following information, answer the question: " + query + "\n\n" + combinedContent + "\n\nAnswer:";
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + apiKey);
@@ -32,7 +37,10 @@ public class ChatbotService {
 
         Map<String, Object> message1 = new HashMap<>();
         message1.put("role", "system");
-        message1.put("content", "You are a helpful assistant answering questions about the game Stardew Valley.");
+        message1.put("content", "You are Q&A bot. A highly intelligent system that answers\n" +
+                "user questions based on the information provided by the user with\n" +
+                "each question. If the information can not be found in the information\n" +
+                "provided by the user you truthfully say \"I don't know\"");
 
         Map<String, Object> message2 = new HashMap<>();
         message2.put("role", "user");

@@ -28,6 +28,9 @@ dependencies {
 	implementation("com.theokanning.openai-gpt3-java:client:0.10.0")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
+
+	// Jsoup
+	implementation("org.jsoup:jsoup:1.17.2")
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
