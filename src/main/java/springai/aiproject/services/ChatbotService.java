@@ -24,11 +24,12 @@ public class ChatbotService {
         this.restTemplate = restTemplate;
     }
 
-    public String callOpenAI(String query, Map<String, String> allContents) {
+//    public String callOpenAI(String query, Map<String, String> allContents) {
+    public String callOpenAI(String query) {
         String url = "https://api.openai.com/v1/chat/completions";
 
-        String combinedContent = allContents.values().stream().collect(Collectors.joining("\n\n"));
-        String prompt = "Based on the following information, answer the question: " + query + "\n\n" + combinedContent + "\n\nAnswer:";
+//        String combinedContent = allContents.values().stream().collect(Collectors.joining("\n\n"));
+//        String prompt = "Based on the following information, answer the question: " + query + "\n\n" + combinedContent + "\n\nAnswer:";
 
 
         HttpHeaders headers = new HttpHeaders();
@@ -44,7 +45,7 @@ public class ChatbotService {
 
         Map<String, Object> message2 = new HashMap<>();
         message2.put("role", "user");
-        message2.put("content", prompt);
+        message2.put("content", query);
 
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", "gpt-3.5-turbo");
