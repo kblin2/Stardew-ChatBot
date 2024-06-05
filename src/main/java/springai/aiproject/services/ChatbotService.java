@@ -42,7 +42,7 @@ public class ChatbotService {
 
         Map<String, Object> message2 = new HashMap<>();
         message2.put("role", "user");
-        message2.put("content", query);
+        message2.put("content", prompt);
 
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", "gpt-3.5-turbo");
