@@ -85,7 +85,7 @@ public class CrawlerService {
         }
     }
 
-    public Map<String, String> loadContentFromFile() throws IOException {
+    public static Map<String, String> loadContentFromFile() throws IOException {
         Map<String, String> content = new HashMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String url = null;
