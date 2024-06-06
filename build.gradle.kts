@@ -22,12 +22,26 @@ repositories {
 	maven { url = uri("https://repo.spring.io/milestone") }
 }
 
+val opennlpVersion = "1.9.3"
+val dl4jVersion = "1.0.0-beta7"
+
 extra["springAiVersion"] = "1.0.0-M1"
 
 dependencies {
 	implementation("com.theokanning.openai-gpt3-java:client:0.10.0")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
+
+	// SQLite JDBC driver
+	implementation("org.xerial:sqlite-jdbc:3.34.0")
+
+	implementation("org.deeplearning4j:deeplearning4j-core:$dl4jVersion")
+	implementation("org.deeplearning4j:deeplearning4j-nlp:$dl4jVersion")
+	implementation("org.nd4j:nd4j-native-platform:$dl4jVersion")
+
+	// Apache OpenNLP for text preprocessing
+	implementation("org.apache.opennlp:opennlp-tools:$opennlpVersion")
+	implementation("org.apache.opennlp:opennlp-uima:$opennlpVersion")
 
 	// Jsoup
 	implementation("org.jsoup:jsoup:1.17.2")
