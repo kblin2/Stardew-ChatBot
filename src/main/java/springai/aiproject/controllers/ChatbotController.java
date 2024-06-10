@@ -46,7 +46,7 @@ public class ChatbotController {
 //        // Output the result
 //        System.out.println("Most similar text: " + mostSimilarText);
 
-        Map<String, String> content = CrawlerService.loadContentFromFile();
+        Map<String, String> content = crawlerService.loadContentFromFile();
 //        content = Map<String, String>;
         return openAIService.callOpenAI(prompt, content);
     }

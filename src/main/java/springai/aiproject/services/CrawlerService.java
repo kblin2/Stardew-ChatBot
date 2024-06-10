@@ -15,7 +15,7 @@ public class CrawlerService {
     private static final int MAX_DEPTH = 2;
     private static final String FILE_PATH = "src/main/resources/static/data/content.txt";
 
-    public static Map<String, String> fetchAllHyperlinkContents(String[] startUrl) throws IOException {
+    public Map<String, String> fetchAllHyperlinkContents(String[] startUrl) throws IOException {
         Set<String> visited = new HashSet<>();
         Queue<String> queue = new LinkedList<>();
         for (String s : startUrl) {
@@ -56,7 +56,7 @@ public class CrawlerService {
         return allContents;
     }
 
-    private static List<String> fetchHyperlinks(String url) throws IOException {
+    private List<String> fetchHyperlinks(String url) throws IOException {
         Document doc = Jsoup.connect(url).get();
         Elements links = doc.select("a[href]");
         List<String> hyperlinks = new ArrayList<>();
@@ -67,16 +67,16 @@ public class CrawlerService {
         return hyperlinks;
     }
 
-    private static String fetchContent(String url) throws IOException {
+    private String fetchContent(String url) throws IOException {
         Document doc = Jsoup.connect(url).get();
         return doc.body().text();
     }
 
-    private static boolean isValidLink(String link) {
+    private boolean isValidLink(String link) {
         return link.startsWith("http") && !link.contains("#");
     }
 
-    private static void saveContentToFile(Map<String, String> content) throws IOException {
+    private void saveContentToFile(Map<String, String> content) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
             for (Map.Entry<String, String> entry : content.entrySet()) {
                 writer.write("URL: " + entry.getKey() + "\n");
@@ -85,7 +85,7 @@ public class CrawlerService {
         }
     }
 
-    public static Map<String, String> loadContentFromFile() throws IOException {
+    public Map<String, String> loadContentFromFile() throws IOException {
         Map<String, String> content = new HashMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String url = null;
