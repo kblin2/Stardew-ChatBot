@@ -43,6 +43,9 @@ dependencies {
 	implementation("org.apache.opennlp:opennlp-tools:$opennlpVersion")
 	implementation("org.apache.opennlp:opennlp-uima:$opennlpVersion")
 
+	// TxtAi Java
+	implementation("com.github.neuml:txtai.java:v7.2.0")
+
 	// Jsoup
 	implementation("org.jsoup:jsoup:1.17.2")
 	compileOnly("org.projectlombok:lombok")
