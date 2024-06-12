@@ -20,6 +20,7 @@ configurations {
 repositories {
 	mavenCentral()
 	maven { url = uri("https://repo.spring.io/milestone") }
+	maven { url = uri("https://jitpack.io")}
 }
 
 val opennlpVersion = "1.9.3"

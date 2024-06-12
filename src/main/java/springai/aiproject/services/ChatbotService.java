@@ -18,7 +18,7 @@ public class ChatbotService {
     @Value("${spring.ai.openai.api-key}")
     private String apiKey;
 
-    @Value("${https://api.openai.com/v1/chat/completions}")
+    @Value("${spring.ai.openai.url}")
     private String url;
 
     private final RestTemplate restTemplate;
@@ -30,6 +30,7 @@ public class ChatbotService {
     public String callOpenAI(String query, Map<String, String> allContents) {
         String combinedContent = allContents.values().stream().collect(Collectors.joining("\n\n"));
         String prompt = "Based on the following information, answer the question: " + query + "\n\n" + combinedContent + "\n\nAnswer:";
+//        String url = "https://api.openai.com/v1/chat/completions";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + apiKey);
