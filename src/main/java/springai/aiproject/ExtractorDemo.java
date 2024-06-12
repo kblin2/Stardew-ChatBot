@@ -8,7 +8,6 @@ import txtai.Extractor;
 import txtai.Extractor.Answer;
 import txtai.Extractor.Question;
 
-
 /**
  * @Author: Kenny Lin
  * @Date: 6/11/2024 11:31 AM
