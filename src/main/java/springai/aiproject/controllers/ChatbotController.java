@@ -50,7 +50,7 @@ public class ChatbotController {
 //
 //        // Output the result
 //        System.out.println("Most similar text: " + mostSimilarText);
-
+        // Extractor not working
         Extractor extractor = new Extractor("http://localhost:8080");
 
         Map<String, String> content = crawlerService.loadContentFromFile();
