@@ -49,7 +49,7 @@ public class ExtractorDemo {
             }
 
             // Ad-hoc questions
-            String question = "What hockey team won?";
+            String question = "How do I get a blue chicken?";
 
             System.out.println("----" + question + "----");
             List<Question> queue = new ArrayList<Question>();
