@@ -55,5 +55,4 @@ public class ChatbotController {
         Map<String, String> content = crawlerService.loadContentFromFile();
         return openAIService.callOpenAI(prompt, content);
     }
-    // Test that double repo is working
 }
