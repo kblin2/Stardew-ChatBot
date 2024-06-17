@@ -28,6 +28,7 @@ public class ChatbotService {
     }
 
     public String callOpenAI(String query, Map<String, String> allContents) {
+        // Use MongoDB to to prompt next
         String combinedContent = allContents.values().stream().collect(Collectors.joining("\n\n"));
         String prompt = "Based on the following information, answer the question: " + query + "\n\n" + combinedContent + "\n\nAnswer:";
 //        String url = "https://api.openai.com/v1/chat/completions";
