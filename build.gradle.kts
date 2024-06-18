@@ -47,12 +47,6 @@ dependencies {
 	// TxtAi Java
 	implementation("com.github.neuml:txtai.java:v7.2.0")
 
-	// MongoDB
-	implementation("org.mongodb:mongodb-driver-sync:4.4.1")
-	implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
-	testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
-	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
-
 	// Jsoup
 	implementation("org.jsoup:jsoup:1.17.2")
 	compileOnly("org.projectlombok:lombok")
