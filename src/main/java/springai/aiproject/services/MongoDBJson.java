@@ -7,6 +7,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -18,47 +19,57 @@ import java.util.Map;
  * @Email: kennethlin728@gmail.com
  */
 public class MongoDBJson {
+
+    private static final String CONNECTION_STRING = "mongodb://localhost:27017";
+    private static final String DATABASE_NAME = "mydatabase";
+    private static final String COLLECTION_NAME = "information";
+    private static final String JSON_FILE_PATH = "src/main/resources/information.json";
+
     public static void main(String[] args) {
-        // MongoDB connection string
-        String uri = "mongodb://localhost:27017";
+        try (MongoClient mongoClient = createMongoClient(CONNECTION_STRING)) {
+            MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
+            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
 
-        // Database and collection names
-        String dbName = "mydatabase";
-        String collectionName = "information";
+            List<Map<String, Object>> items = readJsonFile(JSON_FILE_PATH);
+            insertDataIntoCollection(collection, items);
 
-        // Create MongoDB client
-        MongoClient mongoClient = MongoClients.create(uri);
-        MongoDatabase database = mongoClient.getDatabase(dbName);
-        MongoCollection<Document> collection = database.getCollection(collectionName);
-
-        // Parse JSON file and insert data into MongoDB
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            // Read JSON file
-            List<Map<String, Object>> items = mapper.readValue(new File("information.json"), new TypeReference<List<Map<String, Object>>>(){});
-
-            // Insert each item into MongoDB collection
-            for (Map<String, Object> item : items) {
-                Document doc = new Document(item);
-                collection.insertOne(doc);
-            }
-            System.out.println("Data successfully inserted into MongoDB!");
-        } catch (IOException e) {
+            queryCollection(collection, "Eiffel Tower");
+        } catch (Exception e) {
+            System.err.println("An error occurred: " + e.getMessage());
             e.printStackTrace();
         }
+    }
 
-        // Query the MongoDB collection for information about the "Eiffel Tower"
-        Document query = new Document("name", "Eiffel Tower");
+    private static MongoClient createMongoClient(String connectionString) {
+        return MongoClients.create(connectionString);
+    }
+
+    private static List<Map<String, Object>> readJsonFile(String filePath) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(new File(filePath), new TypeReference<List<Map<String, Object>>>() {});
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read JSON file at " + filePath, e);
+        }
+    }
+
+    private static void insertDataIntoCollection(MongoCollection<Document> collection, List<Map<String, Object>> items) {
+        for (Map<String, Object> item : items) {
+            Document doc = new Document(item);
+            collection.insertOne(doc);
+        }
+        System.out.println("Data successfully inserted into MongoDB!");
+    }
+
+    private static void queryCollection(MongoCollection<Document> collection, String name) {
+        Document query = new Document("name", name);
         Document result = collection.find(query).first();
 
         if (result != null) {
-            System.out.println("Information about the Eiffel Tower:");
+            System.out.println("Information about " + name + ":");
             System.out.println(result.toJson());
         } else {
-            System.out.println("No information found for the Eiffel Tower.");
+            System.out.println("No information found for " + name + ".");
         }
-
-        // Close the MongoDB client
-        mongoClient.close();
     }
 }
