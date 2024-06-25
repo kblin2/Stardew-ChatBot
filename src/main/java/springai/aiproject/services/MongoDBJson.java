@@ -25,21 +25,6 @@ public class MongoDBJson {
     private static final String COLLECTION_NAME = "information";
     private static final String JSON_FILE_PATH = "src/main/resources/information.json";
 
-    public static void main(String[] args) {
-        try (MongoClient mongoClient = createMongoClient(CONNECTION_STRING)) {
-            MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
-            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
-
-            List<Map<String, Object>> items = readJsonFile(JSON_FILE_PATH);
-            insertDataIntoCollection(collection, items);
-
-            queryCollection(collection, "Eiffel Tower");
-        } catch (Exception e) {
-            System.err.println("An error occurred: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
     private static MongoClient createMongoClient(String connectionString) {
         return MongoClients.create(connectionString);
     }
