@@ -11,18 +11,17 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 public class ChatbotController {
 
-    private final CrawlerService crawlerService;
     private final ChatbotService openAIService;
 
-    public ChatbotController(ChatbotService openAIService, CrawlerService crawlerService) {
+    public ChatbotController(ChatbotService openAIService) {
         this.openAIService = openAIService;
-        this.crawlerService  = crawlerService;
     }
 
     @GetMapping("/chat")
@@ -31,28 +30,27 @@ public class ChatbotController {
 //        Map<String, String> allContents = CrawlerService.fetchAllHyperlinkContents(urls);
 
         // Creating the sentences
-        String text = Files.readString(Paths.get("src/main/resources/static/data/combined_output.txt"), StandardCharsets.ISO_8859_1);
-//        System.out.println(text);
-        String[] sentences = TextPreprocessor.sentenceDetect(text);
-
-        // Generate the word embeddings
-        EmbeddingGenerator embeddingGenerator = new EmbeddingGenerator("src/main/resources/models/word2vec/GoogleNews-vectors-negative300.bin");
-        EmbeddingStorage storage = new EmbeddingStorage();
-        for (String sentence : sentences) {
-            double[] vector = embeddingGenerator.getWordVector(sentence);
-            storage.addEmbedding(sentence, vector);
-        }
-
-        // Process a query
-        QueryProcessor queryProcessor = new QueryProcessor(embeddingGenerator);
-        System.out.println(prompt);
-        String mostSimilarText = SimilaritySearch.findMostSimilar(prompt, storage, queryProcessor);
-
-        // Output the result
-        System.out.println("Most similar text: " + mostSimilarText);
+//        String text = Files.readString(Paths.get("src/main/resources/static/data/combined_output.txt"), StandardCharsets.ISO_8859_1);
+////        System.out.println(text);
+//        String[] sentences = TextPreprocessor.sentenceDetect(text);
+//
+//        // Generate the word embeddings
+//        EmbeddingGenerator embeddingGenerator = new EmbeddingGenerator("src/main/resources/models/word2vec/GoogleNews-vectors-negative300.bin");
+//        EmbeddingStorage storage = new EmbeddingStorage();
+//        for (String sentence : sentences) {
+//            double[] vector = embeddingGenerator.getWordVector(sentence);
+//            storage.addEmbedding(sentence, vector);
+//        }
+//
+//        // Process a query
+//        QueryProcessor queryProcessor = new QueryProcessor(embeddingGenerator);
+//        System.out.println(prompt);
+//        String mostSimilarText = SimilaritySearch.findMostSimilar(prompt, storage, queryProcessor);
+//
+//        // Output the result
+//        System.out.println("Most similar text: " + mostSimilarText);
         // Extractor not working
-
-        Map<String, String> content = crawlerService.loadContentFromFile();
+        Map<String, String> content = new HashMap<String, String>();
         return openAIService.callOpenAI(prompt, content);
     }
 }
