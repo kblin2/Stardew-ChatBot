@@ -53,6 +53,11 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	
+	// LangChain
+	implementation("dev.langchain4j:langchain4j-spring-boot-starter:0.31.0")
+	implementation("dev.langchain4j:langchain4j-open-ai-spring-boot-starter:0.31.0")
+	implementation("dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2:0.31.0")
 }
 
 dependencyManagement {
