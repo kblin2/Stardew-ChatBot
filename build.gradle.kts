@@ -32,6 +32,7 @@ dependencies {
 	implementation("com.theokanning.openai-gpt3-java:client:0.10.0")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
+	implementation("com.h2database:h2:runtime")
 
 	// SQLite JDBC driver
 	implementation("org.xerial:sqlite-jdbc:3.34.0")
@@ -58,6 +59,7 @@ dependencies {
 	implementation("dev.langchain4j:langchain4j-spring-boot-starter:0.31.0")
 	implementation("dev.langchain4j:langchain4j-open-ai-spring-boot-starter:0.31.0")
 	implementation("dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2:0.31.0")
+	implementation("com.langchain4j:langchain4j-core:1.0.0")
 }
 
 dependencyManagement {
